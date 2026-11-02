@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+"""rk1-speech-health: the board's health as JSON (rk1speech/health.py)."""
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+from rk1speech.health import main  # noqa: E402
+
+sys.exit(main())

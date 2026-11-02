@@ -1,0 +1,32 @@
+rk1-speech
+Copyright 2026 Andrew Fursman
+
+This product is licensed under the Apache License 2.0 (see LICENSE).
+
+rk1-speech contains no model weights, no compiled models and no code from the
+projects below. Its installer downloads them from their own publishers, at the
+versions pinned in versions.env, and runs them. They keep their own licences:
+
+  moonshine-rknn (https://github.com/fursman/moonshine-rknn), MIT License:
+    the speech recogniser. It runs Moonshine by Moonshine AI
+    (https://github.com/moonshine-ai/moonshine, MIT License), moonshine-voice's
+    model build, and Silero VAD (https://github.com/snakers4/silero-vad, MIT).
+
+  kokoro-rknn (https://github.com/fursman/kokoro-rknn), Apache License 2.0:
+    the speech synthesiser. It runs Kokoro-82M by hexgrad
+    (https://github.com/hexgrad/kokoro, Apache License 2.0) through kokoro-onnx
+    by thewh1teagle (https://github.com/thewh1teagle/kokoro-onnx, MIT License).
+    Parts of kokoro-rknn's build/surgery.py are adapted from kokoro-server by
+    marty1885 (https://github.com/marty1885/kokoro-server). kokoro-server had
+    no licence file when kokoro-rknn was written; much of it derives from
+    Kokoro, so kokoro-rknn treats what it adapted as carrying Kokoro's
+    Apache License 2.0 terms (see kokoro-rknn's NOTICE). rk1-speech follows
+    the same policy for anything it installs that derives from them.
+
+  Rockchip's RKNN runtime (librknnrt) and rknn-toolkit2
+    (https://github.com/airockchip/rknn-toolkit2): the NPU runtime and the
+    graph compiler, under Rockchip's terms. The installer downloads
+    librknnrt.so 2.5.0 from that repository and checks its sha256.
+
+known-good/kokoro-rknn-buckets.sha256 lists only SHA-256 hashes of NPU graphs
+compiled from Kokoro-82M; the graphs themselves are not distributed here.

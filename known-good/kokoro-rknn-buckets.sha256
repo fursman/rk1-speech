@@ -1,0 +1,25 @@
+# kokoro-rknn decoder graphs known to be safe on the RK3588 NPU: sha256 of the 16 files
+# (dec_T<T>_{A,B}.rknn) that ran in production on four Turing RK1 boards from 2026-11-02.
+# They were compiled with rknn-toolkit2 2.3.2 by kokoro-rknn's build/ (the same surgery
+# as KOKORO_RKNN_COMMIT), and their compile logs had 0 REGTASK errors.
+#
+# install.py --kokoro-buckets DIR accepts a graph when its hash is listed here or when
+# DIR/logs has its compile log with no REGTASK error. Builds are not byte-reproducible
+# (an x86-64 build of the same graph has another hash), so a graph built elsewhere needs
+# its log. This file holds hashes only; no model is distributed with rk1-speech.
+d6ce87e0fdb09648dce835dfe21aaeb63fb6204f99b136ea685dbf2783899479  dec_T64_A.rknn
+be147458eff9d70463d2b0b3afe352520cdc1d4fab32bb8768063f9a5405e7c4  dec_T64_B.rknn
+39eeea2b82b8dba73382e357bf787c77ba00e612de95b491ad7f48222af888bd  dec_T96_A.rknn
+c28af384c829e9e92d71c4f1199bf2fa0b4ca35f12ef671390aeefba572d6c85  dec_T96_B.rknn
+8f46957417c00b2c34abfd4f34c9bf1f1d1c8db64f9762bf707e6b9148db8925  dec_T128_A.rknn
+d9cc5370ce0dbbf632ea05af636c88189f85083bc7011b444facbd93b4c8901b  dec_T128_B.rknn
+222cdf923a5b510271c05e1fac8e9903dadf6f3c927fdf31fc414cfe12a963fa  dec_T160_A.rknn
+8b0053d5393044a69196d2cc24e24a246741c5893c92968397812a8a0ae3b670  dec_T160_B.rknn
+e6fab8b9b2206637854df88b28915fa82e5a19d120fa9c113a0c6041ded3dbf0  dec_T200_A.rknn
+aee1a360364e1333b0120717bc82cd416b4579f331f05b11c1a828bc5d89407d  dec_T200_B.rknn
+846acbd66dcc4dd4db14614d721033ca5a521b17be2764675824dd87bd86c18e  dec_T256_A.rknn
+0df65e1c563071195968d6cb6bf4ad88851c61a911460c3b61be33db46ec618c  dec_T256_B.rknn
+8214d0c9b2aafed75d642c6321db6b84f2c3699c824b52b36b34af4e04cb8b60  dec_T320_A.rknn
+bb68546f04132c95ac3f8f7b3cfe3a697e1aa0cadf4d5ff42611e94299a32be9  dec_T320_B.rknn
+cfdae41bef5805cc4bdef2e3d159f039d30bcc92674d52dbc8a610fefe6ab401  dec_T400_A.rknn
+205a89a182d706f92975c1d52468842e58fc74454375ce048ec3580937becd08  dec_T400_B.rknn
