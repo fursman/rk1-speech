@@ -131,7 +131,11 @@ def merge(found: list, static: list) -> list:
         if key is None:
             out[s.address] = s
         else:
-            out[key] = out[key]._replace(name=s.name, ssh=s.ssh, source="mdns+static")
+            # mDNS says what it serves, but one lost announcement must not make a
+            # server vanish from status and the cover check: the static entry's
+            # servers stay, at the announced ports where there are any.
+            out[key] = out[key]._replace(name=s.name, ssh=s.ssh, source="mdns+static",
+                                         ports={**s.ports, **out[key].ports})
     return sorted(out.values(), key=lambda b: (b.name, b.address))
 
 

@@ -34,6 +34,16 @@ def test_announced_and_listed_boards_are_merged_by_address(tmp_path):
     assert by["10.0.0.14"].ports == {"stt": 9772, "tts": 9771} and by["10.0.0.14"].source == "static"
 
 
+def test_a_lost_announcement_does_not_hide_a_listed_server(tmp_path):
+    """A board announced only its recognition (avahi had skipped its synthesis
+    file); being on the static list, its synthesis still counts."""
+    f = tmp_path / "boards"
+    f.write_text("rk1-4 ubuntu@10.0.0.14\n")
+    found = fleet.from_mdns({"stt": [svc("stt", "rk1-4", "10.0.0.14", 8772)], "tts": []}, "ubuntu")
+    (b,) = fleet.merge(found, fleet.read_boards_file(f, "ubuntu"))
+    assert b.ports == {"stt": 8772, "tts": 8771} and b.source == "mdns+static"
+
+
 def _boards(n):
     return [fleet.Board(f"b{i}", f"10.0.0.{i}", f"u@10.0.0.{i}", {"stt": 8772, "tts": 8771}, "static", {}, None)
             for i in range(1, n + 1)]

@@ -250,3 +250,14 @@ def test_a_deploy_keeps_its_units_and_announcements(tmp_path):
     shown = [a.shown for a in installer.step_deploy(_ctx(tmp_path)).actions]
     assert any("/units/rk1-speech-tts.service" in s for s in shown)
     assert any("/avahi/rk1-speech-stt.service" in s for s in shown)
+
+
+def test_new_announcements_are_read_with_a_reload(tmp_path, monkeypatch):
+    """`install` creates a file before setting its mode, and avahi, watching the
+    directory, once caught the synthesis file unreadable and never announced it."""
+    ctx = _ctx(tmp_path)
+    monkeypatch.setattr(installer, "AVAHI_DIR", tmp_path / "avahi")
+    monkeypatch.setattr(ctx, "look", lambda argv, timeout=60: (0, "active"))
+    shown = [a.shown for a in installer.step_announce(ctx).actions]
+    assert any("rk1-speech-tts.service" in s for s in shown)
+    assert shown[-1].endswith("systemctl reload-or-restart avahi-daemon")

@@ -802,6 +802,12 @@ def step_announce(ctx):
     rc, active = ctx.look(["systemctl", "is-active", "avahi-daemon"])
     if active != "active":
         acts.append(ctx.cmd(["systemctl", "enable", "--now", "avahi-daemon"], root=True))
+    elif acts:
+        # avahi does watch the directory, but `install` creates a file before it
+        # sets its mode: avahi can catch it unreadable ("Permission denied") and
+        # then ignore it until the next change. Seen on a board whose speech
+        # synthesis never got announced. A reload reads the finished files.
+        acts.append(ctx.cmd(["systemctl", "reload-or-restart", "avahi-daemon"], root=True))
     types = ", ".join(f"{announce.TYPES[k]} on {ctx.cfg[f'RK1S_{k.upper()}_PORT']}" for k in ("stt", "tts"))
     if not acts:
         return Step("mDNS announcement", "ok", types)
@@ -923,6 +929,7 @@ def swap(ctx):
         if mine - keep:
             ctx.run(ctx.as_root(["rm", "-f", *map(str, sorted(mine - keep))]))
         ctx.run(ctx.as_root(["systemctl", "daemon-reload"]))
+        ctx.run(ctx.as_root(["systemctl", "reload-or-restart", "avahi-daemon"]))  # see step_announce
 
 
 def deploy_units(path: Path, fallback) -> list:
